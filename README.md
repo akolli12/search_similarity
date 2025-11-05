@@ -2,7 +2,7 @@
 
 A FastAPI-based reranking and paragraph search API using BAAI’s `bge-reranker-large` model.
 
-## 🚀 Setup
+## Setup
 
 ### 1. Clone the repo
 
