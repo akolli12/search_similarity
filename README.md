@@ -16,7 +16,7 @@ A FastAPI-based reranking and paragraph search API using BAAI’s `bge-reranker-
 ### 4. Submit paragraphs
   curl -X POST "http://127.0.0.1:8000/submit_paragraphs" \
   -H "Content-Type: application/json" \
-  -d @path_to/example_paragraphs_submission.json
+  -d @path_to/example_paragraph_submission.json
 
 ### 5. Submit question for searching - example question below (matches example paragraphs)
   curl -X POST "http://127.0.0.1:8000/search" \           
