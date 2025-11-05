@@ -18,11 +18,11 @@ A FastAPI-based reranking and paragraph search API using BAAI’s `bge-reranker-
   -H "Content-Type: application/json" \
   -d @path_to/example_paragraphs_submission.json
 
-### 5. Submit question for searching
+### 5. Submit question for searching - example question below (matches example paragraphs)
   curl -X POST "http://127.0.0.1:8000/search" \           
   -H "Content-Type: application/json" \
   -d '{        
     "session_id": [session_id_from_paragraph_submission],     
-    "question": "What did Goring believe the person whom he refused to work with in 1940 and 1941 would gain with further support?", (example question)
+    "question": "What did Goring believe the person whom he refused to work with in 1940 and 1941 would gain with further support?",
     "top_k": 2
   }'
