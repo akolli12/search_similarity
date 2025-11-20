@@ -20,7 +20,8 @@ model.eval()
 device = "cuda" if torch.cuda.is_available() else "cpu" # default, can change as necessary
 model.to(device)
 
-paragraph_store: Dict[str, List[dict]] = {}
+# paragraph_store: Dict[str, List[dict]] = {}
+paragraph_store: List[List[dict]] = []
 
 
 def rerank_one(query: str, docs: list[str], device=device):
@@ -72,7 +73,7 @@ class ParagraphIn(BaseModel):
 #     top_k: int = 3
 
 class QuestionSubmission(BaseModel):
-    session_id: str
+    # session_id: str
     question: str
     top_k: int = 3
 
@@ -88,26 +89,27 @@ class SearchResponse(BaseModel):
     top_hits: List[ParagraphHit]
 
 class ParagraphSubmission(BaseModel):
-    session_id: str
+    # session_id: str
     paragraphs: List[ParagraphIn]
 
 @app.post("/submit_paragraphs")
 async def submit_paragraphs(req: ParagraphSubmission):
     """Store paragraphs under a session ID (so different agents can contribute)."""
-    if not req.session_id or not req.paragraphs:
-        raise HTTPException(status_code=400, detail="session_id and paragraphs are required.")
-    paragraph_store[req.session_id] = req.paragraphs
-    return {"message": f"Stored {len(req.paragraphs)} paragraphs for session {req.session_id}."}
+    if not req.paragraphs:
+        raise HTTPException(status_code=400, detail="paragraphs are required.")
+    # paragraph_store[req.session_id] = req.paragraphs
+    paragraph_store.append(req.paragraphs)
+    return {"message": f"Stored {len(req.paragraphs)} paragraphs as submission #{len(paragraph_store)}."}
 
 @app.post("/search", response_model=SearchResponse)
 async def search_endpoint(req: QuestionSubmission):
-    if not req.session_id or req.session_id not in paragraph_store:
-        raise HTTPException(status_code=404, detail=f"No paragraphs found for session {req.session_id}.")
+    if not paragraph_store:
+        raise HTTPException(status_code=404, detail=f"No paragraphs found.")
     
     if not req.question:
         raise HTTPException(status_code=400, detail="Question is required.")
 
-    paragraphs = paragraph_store[req.session_id]
+    paragraphs = paragraph_store[-1]
     
     try:
         paragraph_texts = [p.paragraph_text for p in paragraphs]
@@ -124,6 +126,8 @@ async def search_endpoint(req: QuestionSubmission):
                 paragraph_text=p.paragraph_text,
                 score=float(similarities[rank_idx])
             ))
+
+        paragraph_store.pop()
 
         return SearchResponse(question=req.question, top_hits=hits)
 
