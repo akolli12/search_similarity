@@ -2,6 +2,7 @@
 #SBATCH -p sm
 #SBATCH --qos=priority
 #SBATCH --gres=gpu:1
+#SBATCH -c 24
 #SBATCH -J uvicorn_server
 #SBATCH -o uvicorn_server.out
 #SBATCH -e uvicorn_server.err
