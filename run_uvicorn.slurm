@@ -12,7 +12,7 @@ source ~/miniconda3/etc/profile.d/conda.sh
 conda activate search2
 
 # Go to the repo
-cd /afs/csail.mit.edu/u/a/akolli/data/sls/scratch/akolli/search_similarity
+cd /data/sls/scratch/akolli/search_similarity
 
 # Run server
 python3 -m uvicorn search_endpoint:app --host 0.0.0.0 --port 8000
