@@ -17,5 +17,7 @@ export CONDA_NO_PLUGINS=true
 source /data/sls/scratch/akolli/miniconda3/etc/profile.d/conda.sh
 conda activate search2
 
+cd /data/sls/scratch/akolli/search_similarity
+
 # --- Run server ---
 python -m uvicorn search_endpoint:app --host 0.0.0.0 --port 8000
