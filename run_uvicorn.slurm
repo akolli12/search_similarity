@@ -17,6 +17,9 @@ export CONDA_NO_PLUGINS=true
 source /data/sls/scratch/akolli/miniconda3/etc/profile.d/conda.sh
 conda activate search2
 
+export PYTHONPATH=/afs/csail/u/a/akolli/data/sls/scratch/akolli/FlagEmbedding:$PYTHONPATH
+
+
 cd /data/sls/scratch/akolli/search_similarity
 
 # --- Run server ---
