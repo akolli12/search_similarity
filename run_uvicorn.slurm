@@ -7,9 +7,15 @@
 #SBATCH -o uvicorn_server.out
 #SBATCH -e uvicorn_server.err
 
-# Activate conda
+# --- Fix conda on CSAIL Slurm ---
+export CONDA_ENVS_PATH=/data/sls/scratch/akolli/miniconda3/envs
+export CONDA_PKGS_DIRS=/data/sls/scratch/akolli/miniconda3/pkgs
+export CONDA_CONFIG=/dev/null
+export CONDA_NO_PLUGINS=true
+
+# --- Initialize conda ---
 source /data/sls/scratch/akolli/miniconda3/etc/profile.d/conda.sh
 conda activate search2
 
-# Run server
-python3 -m uvicorn search_endpoint:app --host 0.0.0.0 --port 8000
+# --- Run server ---
+python -m uvicorn search_endpoint:app --host 0.0.0.0 --port 8000
