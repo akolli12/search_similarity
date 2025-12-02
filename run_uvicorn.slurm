@@ -8,7 +8,7 @@
 #SBATCH -e uvicorn_server.err
 
 # Activate conda
-source /miniconda3/etc/profile.d/conda.sh
+source /data/sls/scratch/akolli/miniconda3/etc/profile.d/conda.sh
 conda activate search2
 
 # Run server
